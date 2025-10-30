@@ -14,7 +14,7 @@ pipeline {
     stages {
         stage('Checkout E2E Repo') {
             steps {
-                git branch: 'main', url: 'https://github.com/rubberheadrobert/redneck-activity-selenium-e2e'
+                git branch: 'master', url: 'https://github.com/rubberheadrobert/redneck-activity-selenium-e2e'
             }
         }
 
