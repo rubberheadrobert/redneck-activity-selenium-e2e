@@ -1,0 +1,63 @@
+pipeline {
+    agent any
+
+    tools {
+        jdk "jdk11" // Name of JDK installation in Jenkins
+        maven "maven3" // Name of Maven installation in Jenkins, if using Maven
+    }
+
+    parameters {
+        string(name: 'APP_URL', defaultValue: 'http://localhost:3000', description: 'URL of the app to test')
+    }
+
+    stages {
+        stage('Checkout E2E Repo') {
+            steps {
+                git credentialsId: 'github-creds', url: 'https://github.com/rubberheadrobert/redneck-activity-selenium-e2e'
+            }
+        }
+
+        stage('Build & Install Dependencies') {
+            steps {
+                bat '''
+                REM If using Maven:
+                mvn clean install
+
+                REM If using Gradle:
+                REM gradlew build
+                '''
+            }
+        }
+
+        stage('Run Selenium Tests') {
+            steps {
+                bat '''
+                REM Pass APP_URL as environment variable for your tests
+                set "APP_URL=%APP_URL%"
+
+                REM Run your Selenium test suite
+                mvn test -Dapp.url=%APP_URL%
+
+                REM OR, if using Gradle:
+                REM gradlew test -PappUrl=%APP_URL%
+                '''
+            }
+        }
+
+        stage('Publish Test Results') {
+            steps {
+                // Make sure your Selenium tests output JUnit XML reports
+                junit '**/target/surefire-reports/*.xml'
+            }
+        }
+    }
+
+    post {
+        success {
+            echo "✅ Selenium tests passed!"
+        }
+        failure {
+            echo "❌ Selenium tests failed!"
+        }
+    }
+}
