@@ -1,51 +1,63 @@
 pipeline {
     agent any
 
-    parameters {
-        string(name: 'APP_URL', defaultValue: 'http://localhost:3000', description: 'URL of the app to test')
+    tools {
+        jdk "jdk11" // Name of JDK installation in Jenkins
+        maven "maven3" // Name of Maven installation in Jenkins, if using Maven
     }
 
-    environment {
-        MAVEN_HOME = tool name: 'maven3', type: 'maven' // Jenkins-managed Maven
-        JAVA_HOME = '' // empty to use system-installed Java
-        PATH = "${env.MAVEN_HOME}/bin;${env.PATH}"
+    parameters {
+        string(name: 'APP_URL', defaultValue: 'http://localhost:3000', description: 'URL of the app to test')
     }
 
     stages {
         stage('Checkout E2E Repo') {
             steps {
-                git branch: 'main', url: 'https://github.com/rubberheadrobert/redneck-activity-selenium-e2e'
+                git credentialsId: 'github-creds', url: 'https://github.com/rubberheadrobert/redneck-activity-selenium-e2e'
             }
         }
 
-        stage('Install Dependencies') {
+        stage('Build & Install Dependencies') {
             steps {
-                // Clean install using Maven
-                bat 'mvn clean install -DskipTests'
+                bat '''
+                REM If using Maven:
+                mvn clean install
+
+                REM If using Gradle:
+                REM gradlew build
+                '''
             }
         }
 
         stage('Run Selenium Tests') {
             steps {
-                // Pass the APP_URL as a system property to the tests
-                bat "mvn test -Dapp.url=${params.APP_URL}"
+                bat '''
+                REM Pass APP_URL as environment variable for your tests
+                set "APP_URL=%APP_URL%"
+
+                REM Run your Selenium test suite
+                mvn test -Dapp.url=%APP_URL%
+
+                REM OR, if using Gradle:
+                REM gradlew test -PappUrl=%APP_URL%
+                '''
             }
         }
 
-        stage('Archive Reports') {
+        stage('Publish Test Results') {
             steps {
-                // Archive test reports (if using surefire)
+                // Make sure your Selenium tests output JUnit XML reports
                 junit '**/target/surefire-reports/*.xml'
             }
         }
     }
 
     post {
-        always {
-            echo "E2E Pipeline finished. Check logs: ${env.BUILD_URL}"
+        success {
+            echo "✅ Selenium tests passed!"
         }
         failure {
-            echo "E2E Tests failed."
+            echo "❌ Selenium tests failed!"
         }
     }
 }
