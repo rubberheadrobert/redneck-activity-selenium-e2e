@@ -19,7 +19,7 @@ public class BaseTest {
 
     @BeforeClass
     public void setUp(){
-        System.setProperty("webdriver.chrome.driver", "C:\\chrome-win64\\chrome.exe");
+        System.setProperty("webdriver.chrome.driver", "C:\\chromedriver-win64\\chromedriver.exe");
 
         // Start Chrome in headless mode
         ChromeOptions options = new ChromeOptions();
