@@ -29,10 +29,10 @@ public class AddTeamsTests  extends BaseTest {
     }
 
     @Test
-    public void validateTeams(){
+    public void validateOnlyOneTeamVisible(){
         AddTeamsPage page = homePage.goToAddTeamsWithDefaultData();
-        Assert.assertEquals(page.getNumOfTeams(), TestData.DEFAULT_TEAM_COUNT,
-                "The number of Teams found is not the same as the expected number of teams.");
+        Assert.assertEquals(page.getNumOfVisibleTeams(), 1,
+                "Only one team should be visible at a time.");
 
     }
 

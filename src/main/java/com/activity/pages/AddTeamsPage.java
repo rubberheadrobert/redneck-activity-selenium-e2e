@@ -5,6 +5,7 @@ import com.activity.data.TestData;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
@@ -15,6 +16,7 @@ public class AddTeamsPage extends BasePage {
 
     private final By title = By.xpath("//h1[text()='Add Teams']");
     private final By teamContainer = By.xpath("//div[@id='team-container']");
+    private final By visibleTeamContainer = By.xpath("//div[@id='team-container' and contains(@style, 'display: block')]");
     private final By visibleTeamName = By.xpath("//div[@id='team-container' and contains(@style, 'display: block')]/input");
     private final By visibleTeamPlayers = By.xpath("//div[@id='team-container' and contains(@style, 'display: block')]/p");
     private final By nextTeamButton = By.xpath("//button[@buttonname='next']");
@@ -53,14 +55,14 @@ public class AddTeamsPage extends BasePage {
         });
     }
 
-    public int getNumOfTeams(){
-        List<WebElement> teams = driver.findElements(teamContainer);
-        waitForElementToAppear(visibleTeamName, 10);
+    public int getNumOfVisibleTeams() {
+        List<WebElement> teams = driver.findElements(visibleTeamContainer);
+        long visibleCount = teams.stream().filter(WebElement::isDisplayed).count();
+
         System.out.println("Elements found: " + teams.size());
-        for (WebElement t : teams) {
-            System.out.println("Displayed? " + t.isDisplayed());
-        }
-        return teams.size();
+        System.out.println("Visible elements: " + visibleCount);
+
+        return (int) visibleCount;
     }
 
     public void nextTeam(){
