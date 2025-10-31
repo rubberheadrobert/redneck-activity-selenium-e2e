@@ -54,7 +54,7 @@ public class AddTeamsPage extends BasePage {
     }
 
     public int getNumOfTeams(){
-        waitForElementToAppear(teamContainer, 10);
+        waitForChildElementsToAppear(teamContainer, 15);
         List<WebElement> teams = driver.findElements(teamContainer);
         return teams.size();
     }

@@ -71,6 +71,11 @@ public class BasePage {
         wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
     }
 
+    protected void waitForChildElementsToAppear(By locator, int timeoutSeconds) {
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(timeoutSeconds));
+        wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(locator));
+    }
+
     protected void waitForElementToBeActive(By locator, int timeoutSeconds){
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(timeoutSeconds));
         wait.until(ExpectedConditions.elementToBeClickable(locator));
