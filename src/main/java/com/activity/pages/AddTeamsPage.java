@@ -79,6 +79,7 @@ public class AddTeamsPage extends BasePage {
     public void clickShuffleButton(){
         click(shuffleButton);
         click(shuffleButton);
+        waitForElementToAppear(visibleTeamContainer, 10);
     }
 
     public void editTeamName(String name){
