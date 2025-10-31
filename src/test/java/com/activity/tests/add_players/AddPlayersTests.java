@@ -20,6 +20,7 @@ public class AddPlayersTests extends BaseTest {
     @Test
     public void testErrorMessage(){
         AddPlayersPage page = homePage.gotoSettings().gotoSettingsSliders().gotoAddPlayers();
+        page.waitForErrorMessageToAppear();
         Assert.assertTrue(page.isErrorMessageVisible(), "Error message is not visible.");
         page.fillInPageDataCorrectly( TestData.DEFAULT_PLAYER_COUNT,
                 TestData.DEFAULT_TEAM_COUNT,
