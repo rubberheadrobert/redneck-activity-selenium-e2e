@@ -59,8 +59,6 @@ public class AddTeamsPage extends BasePage {
         List<WebElement> teams = driver.findElements(visibleTeamContainer);
         long visibleCount = teams.stream().filter(WebElement::isDisplayed).count();
 
-        System.out.println("Elements found: " + teams.size());
-        System.out.println("Visible elements: " + visibleCount);
 
         return (int) visibleCount;
     }
