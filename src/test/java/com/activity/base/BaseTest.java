@@ -28,10 +28,10 @@ public class BaseTest {
     @BeforeClass
     public void setUp(){
         System.setProperty("webdriver.chrome.driver", "C:\\chromedriver-win64\\chromedriver.exe");
-
-        // Start Chrome in headless mode
         ChromeOptions options = new ChromeOptions();
-        options.addArguments("--headless");
+        //options.addArguments("--headless");
+        options.addArguments("--headless=new");
+        options.addArguments("--window-size=1920,1080");
         driver = new ChromeDriver(options);
         driver.manage().window().maximize();
     }

@@ -43,6 +43,7 @@ pipeline {
     post {
         always {
             echo "E2E Pipeline finished. Check logs: ${env.BUILD_URL}"
+            archiveArtifacts artifacts: 'target/screenshots/*.png', allowEmptyArchive: true
         }
         failure {
             echo "E2E Tests failed."
