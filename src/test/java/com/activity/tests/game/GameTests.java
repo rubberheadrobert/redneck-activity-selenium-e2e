@@ -1,4 +1,4 @@
-package com.activity.game;
+package com.activity.tests.game;
 
 import com.activity.base.BaseTest;
 import com.activity.data.TestData;
