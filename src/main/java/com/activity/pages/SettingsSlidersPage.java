@@ -52,7 +52,6 @@ public class SettingsSlidersPage extends BasePage {
         Actions actions = new Actions(driver);
         actions.moveToElement(handle).clickAndHold();
 
-        // Instead of 1px or 10px per move, move in larger chunks
         int absOffset = Math.abs(totalOffset);
         int step = (absOffset < 100) ? totalOffset : totalOffset / 5; // 5 smooth moves max
         int moved = 0;
@@ -66,7 +65,7 @@ public class SettingsSlidersPage extends BasePage {
         }
         actions.release().perform();
 
-        // Wait for React to confirm new value
+
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
         wait.until(d -> {
             int newValue = Integer.parseInt(handle.getAttribute("aria-valuenow"));
@@ -88,8 +87,6 @@ public class SettingsSlidersPage extends BasePage {
             );
         }
     }
-
-    // Convenience methods for your specific sliders
     public void setRoundLength(int value) {
         setSliderValue(roundLengthSlider, 10, 60, value); // min=10, max=60
     }

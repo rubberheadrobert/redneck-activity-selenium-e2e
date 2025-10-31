@@ -48,44 +48,6 @@ public class BasePage {
         }
     }
 
-    protected boolean isReactElementVisible(By locator) {
-        try {
-            List<WebElement> elements = driver.findElements(locator);
-            if (elements.isEmpty()) return false; // not mounted yet / removed
-            WebElement el = elements.get(0);
-            return el.isDisplayed();
-        } catch (StaleElementReferenceException e) {
-            // React re-rendered, so the old element reference is invalid — treat as not visible
-            return false;
-        }
-    }
-
-    public boolean isReactButtonClickable(By locator) {
-        WebElement button = driver.findElement(locator);
-        return button.isDisplayed()
-                && Boolean.parseBoolean(button.getAttribute("data-clickable"));
-    }
-
-    protected void waitForElementToAppear(By locator, int timeoutSeconds) {
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(timeoutSeconds));
-        wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
-    }
-
-    protected void waitForChildElementsToAppear(By locator, int timeoutSeconds) {
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(timeoutSeconds));
-        wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(locator));
-    }
-
-    protected void waitForElementToBeActive(By locator, int timeoutSeconds){
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(timeoutSeconds));
-        wait.until(ExpectedConditions.elementToBeClickable(locator));
-    }
-
-    protected void waitForElementToDisappear(By locator, int timeoutSeconds) {
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(timeoutSeconds));
-        wait.until(ExpectedConditions.invisibilityOfElementLocated(locator));
-    }
-
 
     public static void delay(int milliseconds){
         try {

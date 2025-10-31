@@ -1,6 +1,7 @@
 package com.activity.pages;
 
 import com.activity.base.BasePage;
+import com.activity.helpers.UIHelper;
 import org.openqa.selenium.By;
 import com.activity.data.TestData;
 
@@ -22,10 +23,12 @@ public class AddPlayersPage extends BasePage {
     private By prevButton = By.cssSelector("[aria-label='to-settings-sliders']");
     private By nextButton = By.cssSelector("[aria-label='to-words']");
 
+    private UIHelper uiHelper;
 
 
     public AddPlayersPage(WebDriver driver) {
         super(driver);
+        this.uiHelper = new UIHelper(driver);
     }
 
     public boolean isLoaded() {
@@ -33,15 +36,15 @@ public class AddPlayersPage extends BasePage {
     }
 
     public boolean isErrorMessageVisible() {
-        return isReactElementVisible(errorMessage);
+        return uiHelper.isReactElementVisible(errorMessage);
     }
 
     public void waitForErrorMessageToAppear() {
-        waitForElementToAppear(errorMessage,10);
+        uiHelper.waitForElementToAppear(errorMessage,10);
     }
 
     public void waitForErrorMessageToDisappear() {
-        waitForElementToDisappear(errorMessage,10);
+        uiHelper.waitForElementToDisappear(errorMessage,10);
     }
 
     public void setNumOfPlayersInput(int num) {
@@ -70,7 +73,7 @@ public class AddPlayersPage extends BasePage {
     }
 
     public boolean isNextClickable(){
-        return isReactButtonClickable(nextButton);
+        return uiHelper.isReactButtonClickable(nextButton);
     }
 
     public void fillInPageDataCorrectly(int playerCount, int teamCount, List<String> names){

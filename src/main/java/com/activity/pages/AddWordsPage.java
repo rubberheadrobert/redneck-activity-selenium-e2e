@@ -2,6 +2,7 @@ package com.activity.pages;
 
 import com.activity.base.BasePage;
 import com.activity.data.TestData;
+import com.activity.helpers.UIHelper;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -20,8 +21,11 @@ public class AddWordsPage extends BasePage {
     private final By nextPlayerButton = By.xpath("//button[text()='Next Player']");
     private final By wordModalInputs = By.xpath("//div[@id='add-words-modal']/input");
 
+    private UIHelper uiHelper;
+
     public AddWordsPage(WebDriver driver) {
         super(driver);
+        this.uiHelper = new UIHelper(driver);
     }
 
     public boolean isLoaded(){
@@ -35,7 +39,7 @@ public class AddWordsPage extends BasePage {
 
     public String addRandomWord() {
         click(randomWordButton);
-        waitForElementToBeActive(wordInput, 10);
+        uiHelper.waitForElementToBeActive(wordInput, 10);
         String randomWord = find(wordInput).getAttribute("value").trim();
         System.out.println("random word: " + randomWord);
         click(addWordButton);
@@ -43,7 +47,7 @@ public class AddWordsPage extends BasePage {
     }
 
     public void waitForConfirmationModalToAppear(){
-        waitForElementToAppear(nextPlayerButton, 10);
+        uiHelper.waitForElementToAppear(nextPlayerButton, 10);
     }
 
     public List<WebElement> findAllWordModalInputs(int expectedCount) {

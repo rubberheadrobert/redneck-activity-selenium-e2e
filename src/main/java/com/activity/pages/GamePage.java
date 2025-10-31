@@ -2,6 +2,7 @@ package com.activity.pages;
 
 import com.activity.base.BasePage;
 import com.activity.data.TestData;
+import com.activity.helpers.UIHelper;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
@@ -22,9 +23,12 @@ public class GamePage extends BasePage {
     private final By gameFinishedModalTitle = By.xpath("//div[@data-testid='game-finished-modal']/h1");
     private final By gameFinishedModalClose = By.xpath("//div[@data-testid='game-finished-modal']/span");
 
+    private UIHelper uiHelper;
+
 
     public GamePage(WebDriver driver) {
         super(driver);
+        this.uiHelper = new UIHelper(driver);
     }
 
     public boolean isLoaded(){
@@ -59,16 +63,16 @@ public class GamePage extends BasePage {
             System.out.println((i + 1) + " word: " + getCurrentWord());
             click(guessedButton);
         }
-        waitForElementToAppear(roundWordsModalContainer, 10);
+        uiHelper.waitForElementToAppear(roundWordsModalContainer, 10);
         click(closeNextRoundButton);
         System.out.println("Round Type: " + roundType);
         System.out.println("Data Round Type: " + TestData.ROUND_TYPES.get(2));
         if(roundType.equals(TestData.ROUND_TYPES.get(2))){
-            waitForElementToAppear(gameFinishedModal, 10);
+            uiHelper.waitForElementToAppear(gameFinishedModal, 10);
             System.out.println("In Game Finished modal");
         } else {
             click(closeNextRoundButton);
-            waitForElementToDisappear(roundWordsModalContainer, 10);
+            uiHelper.waitForElementToDisappear(roundWordsModalContainer, 10);
         }
 
     }

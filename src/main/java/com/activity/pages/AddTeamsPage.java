@@ -2,6 +2,7 @@ package com.activity.pages;
 
 import com.activity.base.BasePage;
 import com.activity.data.TestData;
+import com.activity.helpers.UIHelper;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -23,8 +24,12 @@ public class AddTeamsPage extends BasePage {
     private final By prevTeamButton = By.xpath("//button[@buttonname='prev']");
     private final By shuffleButton = By.xpath("//button[text()='Shuffle']");
     private final By nextButton = By.xpath("//button[@aria-label='to-game']");
+    private UIHelper uiHelper;
+
     public AddTeamsPage(WebDriver driver) {
         super(driver);
+        this.uiHelper = new UIHelper(driver);
+
     }
 
     public boolean isLoaded(){
@@ -79,7 +84,7 @@ public class AddTeamsPage extends BasePage {
     public void clickShuffleButton(){
         click(shuffleButton);
         click(shuffleButton);
-        waitForElementToAppear(visibleTeamContainer, 10);
+        uiHelper.waitForElementToAppear(visibleTeamContainer, 10);
     }
 
     public void editTeamName(String name){
